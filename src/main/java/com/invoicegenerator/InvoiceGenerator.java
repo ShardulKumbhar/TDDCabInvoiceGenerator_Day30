@@ -8,7 +8,8 @@ public class InvoiceGenerator {
 	 * 1.created variables and assigned value 
 	 * 2.create method to calculate total fare as per distance and time
 	 * 3.if condition when given less distance and time then minimum charge should be given as 5.
-	 * ===============================================================================================
+	 * 4.Method to calculate total fare for multiple rides
+	 *===============================================================================================
 	 * @author shardul
 	*/
 	
@@ -31,14 +32,17 @@ public class InvoiceGenerator {
 	public double calculateFare(double distance, int time) {
 		double totalFare = distance * COST_PER_KM + time * COST_PER_TIME;
 
-		/*
-		 * 3.if condition when given less distance and time then minimum charge should
-		 * be given as 5.
-		 */
-		if (totalFare < MINIMUM_FARE)
+		return Math.max(totalFare, MINIMUM_FARE);
+	}
 
-			return MINIMUM_FARE;
-
+	/*
+	 * 4.Method to calculate total fare for multiple rides
+	 */
+	public double calculateFare(Ride[] rides) {
+		double totalFare = 0;
+		for (Ride ride : rides) {
+			totalFare += this.calculateFare(ride.distance, ride.time);
+		}
 		return totalFare;
 	}
 }
