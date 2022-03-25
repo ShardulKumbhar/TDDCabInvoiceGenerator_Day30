@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.invoicegenerator.InvoiceGenerator;
+import com.invoicegenerator.InvoiceSummary;
 import com.invoicegenerator.Ride;
 
 public class InvoiceServiceTest {
@@ -17,6 +18,7 @@ public class InvoiceServiceTest {
 	 * 2.created method for calculating the total fare by giving distance and time for
 	 * the total fare will be less than 5
 	 * 3.To test given multiple rides should return total fare.
+	 * 4.multiple rides should return the ride summary
 	 * ======================================================================================
 	 */
 		InvoiceGenerator invoiceGenerator = null;
@@ -61,6 +63,17 @@ public class InvoiceServiceTest {
 			Ride[] rides = { new Ride(2.0, 5), new Ride(0.1, 1) };
 			double fare = invoiceGenerator.calculateFare(rides);
 			assertEquals(30, fare, 0.0);
+		}
+		
+		/**
+		 * 4.multiple rides should return the ride summary
+		 */
+		@Test		
+		public void givenMultipleRidesShouldReturnRideSummary() {
+			Ride[] rides = { new Ride(2.0, 5), new Ride(0.1, 1) };
+			InvoiceSummary summary = invoiceGenerator.getInvoiceSummary(rides);
+			InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(2, 30.0);
+			assertEquals(expectedInvoiceSummary, summary);
 		}
 
 	}

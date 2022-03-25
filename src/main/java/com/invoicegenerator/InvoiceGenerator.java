@@ -45,4 +45,15 @@ public class InvoiceGenerator {
 		}
 		return totalFare;
 	}
+	/**
+	 * InvoiceSummary method for getting the part of the invoice
+	 * 
+	 * @param rides
+	 * @return
+	 */
+	public InvoiceSummary getInvoiceSummary(Ride[] rides) {
+		double totalFare = calculateFare(rides);
+		int numOfRides = rides.length;
+		return new InvoiceSummary(numOfRides, totalFare);
+	}
 }
