@@ -19,9 +19,7 @@ public class InvoiceGenerator{
 	/**
 	 * 1.created variables and assigned value
 	 */
-	private static final int COST_PER_TIME = 1;
-	private static final double COST_PER_KM = 10;
-	private static final double MINIMUM_FARE = 5;
+
 	private RideRepository rideRepository;
 
 	/**
@@ -38,8 +36,9 @@ public class InvoiceGenerator{
 	/*
 	 * 3.Method to calculate
 	 */
-	public double calculateFare(double distance, int time) {
-		return Math.max(MINIMUM_FARE, distance * COST_PER_KM + time * COST_PER_TIME);
+	public double calculateFare(Ride ride) {
+		return Math.max(ride.rideType.minFare,
+				ride.getDistance() * ride.rideType.costPerKm + ride.getTime() * ride.rideType.costPerTime);
 	}
 
 	/*
@@ -48,7 +47,7 @@ public class InvoiceGenerator{
 	public InvoiceSummary calculateFare(Ride[] rides) {
 		double totalFare = 0;
 		for (Ride ride : rides) {
-			totalFare += calculateFare(ride.getDistance(), ride.getTime());
+			totalFare += calculateFare(ride);
 		}
 		return new InvoiceSummary(rides.length, totalFare);
 	}

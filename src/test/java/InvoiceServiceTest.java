@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import com.invoicegenerator.InvoiceGenerator;
 
 import com.invoicegenerator.InvoiceSummary;
+import com.invoicegenerator.PremiumRides;
 import com.invoicegenerator.Ride;
 
 public class InvoiceServiceTest {
@@ -18,6 +19,7 @@ public class InvoiceServiceTest {
 	 * the total fare will be less than 5
 	 * 3.To test given multiple rides should return total fare.
 	 * 4.multiple rides should return the ride summary
+	 * 5.Two Types of rides 
 	 * ======================================================================================
 	 */
 	InvoiceGenerator invoiceGenerator = null;
@@ -61,7 +63,7 @@ public class InvoiceServiceTest {
 	 */
 	@Test
 	public void givenMultipleRidesShouldReturnRideSummary() {
-		Ride[] rides = { new Ride(2.0, 5), new Ride(0.1, 1) };
+		Ride[] rides = { new Ride(2.0, 5, PremiumRides.NORMAL_RIDE), new Ride(0.1, 1, PremiumRides.NORMAL_RIDE) };
 		InvoiceSummary summary = invoiceGenerator.calculateFare(rides);
 		InvoiceSummary expectedSummary = new InvoiceSummary(2, 30.0);
 		assertEquals(expectedSummary, summary);
@@ -72,11 +74,28 @@ public class InvoiceServiceTest {
 	 */
 	@Test
 	public void givenUserIdShouldReturnTheInvoice() {
-		String userId = "abc@123";
-		Ride[] rides = { new Ride(2.0, 5), new Ride(0.1, 1) };
+		String userId = "sam@123";
+		Ride[] rides = { new Ride(2.0, 5, PremiumRides.NORMAL_RIDE), new Ride(0.1, 1, PremiumRides.NORMAL_RIDE) };
 		invoiceGenerator.addRides(userId, rides);
 		InvoiceSummary summary = invoiceGenerator.getInvoiceSummary(userId);
 		InvoiceSummary checkSummary = new InvoiceSummary(2, 30.0);
+		assertEquals(summary, checkSummary);
+	}
+
+	/**
+	 * 5.Two Types of rides Normal Rides : 
+	 * Rs.10 per km, Rs.1 per minute, Minimum fare of Rs.5 
+	 * Premium Rides : Rs.15 per km, Rs.2 per minute , Minimum fare of Rs.20
+	 * 
+	 */
+	@Test
+	public void givenUserIdWithPremiumRideShouldReturnTheInvoice() {
+		String userId = "sam@123";
+		Ride[] rides = { new Ride(2.0, 5, PremiumRides.NORMAL_RIDE), new Ride(0.1, 1, PremiumRides.NORMAL_RIDE),
+				new Ride(0.1, 1, PremiumRides.PREMIUM_RIDE) };
+		invoiceGenerator.addRides(userId, rides);
+		InvoiceSummary summary = invoiceGenerator.getInvoiceSummary(userId);
+		InvoiceSummary checkSummary = new InvoiceSummary(3, 50.0);
 		assertEquals(summary, checkSummary);
 	}
 }

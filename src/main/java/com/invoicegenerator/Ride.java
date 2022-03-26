@@ -7,6 +7,8 @@ public class Ride {
 	 */
 	private double distance;
 	private int time;
+	public PremiumRides rideType;
+
 
 	/**
 	 * create parameterized constructor of Ride class by passing distance and time
@@ -14,9 +16,11 @@ public class Ride {
 	 * @param distance
 	 * @param time
 	 */
-	public Ride(double distance, int time) {
+	public Ride(double distance, int time, PremiumRides rideType) {
+		super();
 		this.distance = distance;
 		this.time = time;
+		this.rideType = rideType;
 	}
 
 	/**
@@ -26,6 +30,8 @@ public class Ride {
 	public double getDistance() {
 		return distance;
 	}
+
+	
 
 	public void setDistance(double distance) {
 		this.distance = distance;
