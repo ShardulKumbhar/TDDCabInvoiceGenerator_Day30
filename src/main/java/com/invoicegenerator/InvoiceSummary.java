@@ -2,31 +2,44 @@ package com.invoicegenerator;
 
 public class InvoiceSummary {
 
+	/**
+	 *1. variables
+	 */
 	public int numOfRides;
 	public double totalFare;
 	public double avgFare;
-	
-	
+
+	/**
+	 * 2.constructor
+	 * 
+	 * @param numOfRides
+	 * @param totalFare
+	 */
 	public InvoiceSummary(int numOfRides, double totalFare) {
-		super();
 		this.numOfRides = numOfRides;
 		this.totalFare = totalFare;
-	
+		this.avgFare = this.totalFare / this.numOfRides;
 	}
-	
-	@Override
-	/**
-	 * The equals() method of Boolean class is a built in method of Java which is
-	 * used check equality of two Boolean object.
-	 * 
+
+	/*
+	 * 3.equals to method of boolean class
 	 */
-	public boolean equals(Object o) {
-		if (this == o)
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
 			return true;
-		if (o == null || getClass() != o.getClass())
+		if (obj == null)
 			return false;
-		InvoiceSummary that = (InvoiceSummary) o;
-		return (numOfRides == that.numOfRides) && Double.compare(that.totalFare, totalFare) == 0
-				&& Double.compare(that.avgFare, avgFare) == 0;
+		if (getClass() != obj.getClass())
+			return false;
+		InvoiceSummary other = (InvoiceSummary) obj;
+		if (Double.doubleToLongBits(avgFare) != Double.doubleToLongBits(other.avgFare))
+			return false;
+		if (numOfRides != other.numOfRides)
+			return false;
+		if (Double.doubleToLongBits(totalFare) != Double.doubleToLongBits(other.totalFare))
+			return false;
+		return true;
 	}
+
 }
